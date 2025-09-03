@@ -13,7 +13,7 @@ import pandas as pd
 
 
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key'
+app.secret_key = 'nJskd92Hhf@#%djkL2L2'
 
 # ✅ Mail Configuration
 app.config.update(
