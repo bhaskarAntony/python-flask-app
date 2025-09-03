@@ -4,14 +4,13 @@ import re
 from datetime import datetime
 from io import BytesIO
 
-import MySQLdb
-import pandas as pd
-from MySQLdb import OperationalError
-from flask import Flask, request, render_template, send_file, url_for, flash, session, redirect
+import mysql.connector
+from flask import Flask, request, render_template, send_file, url_for, flash, session, redirect, g
 from flask_mail import Mail, Message
-from flask_mysqldb import MySQL
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
+import pandas as pd
+
 
 app = Flask(__name__)
 app.secret_key = 'your_super_secret_key'
@@ -27,19 +26,47 @@ app.config.update(
 )
 mail = Mail(app)
 
-# ✅ MySQL Configuration
+app = Flask(__name__)
+
+# ✅ MySQL Configuration (manual, mimicking flask_mysqldb)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'softnis_db'
+
+# ✅ Email Configuration
 app.config['MAIL_DEFAULT_SENDER'] = 'reshmamohan938@gmail.com'
-mysql = MySQL(app)
 
+# ✅ MySQL wrapper class
+class MySQLWrapper:
+    def __init__(self, app):
+        self.config = {
+            'host': app.config.get('MYSQL_HOST'),
+            'user': app.config.get('MYSQL_USER'),
+            'password': app.config.get('MYSQL_PASSWORD'),
+            'database': app.config.get('MYSQL_DB')
+        }
 
+    @property
+    def connection(self):
+        if 'db_conn' not in g:
+            g.db_conn = mysql.connector.connect(**self.config)
+        return g.db_conn
+
+    def close_connection(self, e=None):
+        db_conn = g.pop('db_conn', None)
+        if db_conn is not None:
+            db_conn.close()
+
+mysql = MySQLWrapper(app)
+app.teardown_appcontext(mysql.close_connection)
+
+# ✅ Folder setup for uploads/results
 UPLOAD_FOLDER = 'uploads'
 RESULT_FOLDER = 'results'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
+
 
 @app.route('/')
 def start_page():
