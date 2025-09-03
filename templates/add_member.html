@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Member</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif;
+     background-color: #f4f6f9;  background-image: url('{{ url_for('static', filename='images/background-css.jpg') }}');
+     display: flex; justify-content: center; align-items: center; height: 100vh; }
+    .form-container { background: white; padding: 30px; border-radius: 12px;
+     box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 400px; }
+    h2 { text-align: center; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
+    .btn { margin-top: 15px; width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 6px; }
+    .btn:hover { background-color: #1e7e34; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add Member</h2>
+    <form method="POST" action="{{ url_for('add_member') }}">
+  <label for="member_name">Name:</label>
+  <input type="text" name="member_name" id="member_name" required>
+
+  <label for="member_email">Email:</label>
+  <input type="email" name="member_email" id="member_email" required>
+
+  <label for="member_phone">Phone:</label>
+  <input type="text" name="member_phone" id="member_phone" required>
+
+  <button type="submit">Add Member</button>
+</form>
+<form action="{{ url_for('add_project') }}" style="margin-top: 28px;">
+      <button type="submit" class="btn btn-secondary">← Back to Project Options</button>
+    </form>
+  </div>
+  </div>
+</body>
+</html>

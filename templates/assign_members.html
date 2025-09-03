@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Employees</title>
+</head>
+<body>
+    <h2>Assign Employees to Project ID {{ project_id }}</h2>
+    <form method="POST">
+        {% for emp in employees %}
+            <label>
+                <input type="checkbox" name="selected_employees" value="{{ emp[0] }}">
+                {{ emp[1] }} ({{ emp[2] }})
+            </label><br>
+        {% endfor %}
+        <button type="submit">✅ Assign Selected Employees</button>
+        <a href="{{ url_for('add_project') }}">⬅ Back</a>
+    </form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      {% for category, message in messages %}
+        alert("{{ message }}");
+      {% endfor %}
+    </script>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>
+

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - SoftNis Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .box img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        .box h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .box p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .box a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .box a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="{{ url_for('static', filename='images/softnis-logo.png') }}">
+        <h2>🔐 Welcome to the SoftNis Tool</h2>
+        <p>Thank you for choosing SoftNis! Before you log in, please take a moment to review the essential prerequisites.</p>
+        <p>Understanding these guidelines will ensure a smooth experience with your Excel file uploads and the login process.</p>
+        <a href="/prerequisites">View Prerequisites</a>
+    </div>
+</body>
+</html>

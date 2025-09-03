@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Report to Members</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e5e7eb; /* Light gray background */
+            color: #1f2937; /* Dark gray text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 32px 16px;
+        }
+
+        main.container {
+            max-width: 500px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px 32px;
+            text-align: center;
+            position: relative;
+            border: 2px solid #3b82f6; /* Blue border */
+        }
+
+        h2 {
+            font-weight: 700;
+            font-size: 28px;
+            color: #3b82f6; /* Blue color for the title */
+            margin-bottom: 24px;
+        }
+
+        form {
+            text-align: left; /* Align checkboxes to the left */
+        }
+
+        .member-checkbox {
+            margin: 12px 0; /* Space between checkboxes */
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9fafb; /* Light background for checkboxes */
+            transition: background 0.3s;
+        }
+
+        .member-checkbox:hover {
+            background-color: #f3f4f6; /* Darker background on hover */
+        }
+
+        label {
+            font-weight: 500;
+            font-size: 16px;
+            color: #374151;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px; /* Space between checkbox and label */
+        }
+
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: #ffffff;
+            background: #3b82f6; /* Blue background */
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px; /* Space above the button */
+        }
+
+        button:hover {
+            background: #2563eb; /* Darker blue on hover */
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h2>Select Members to Send Report</h2>
+
+        <form method="POST" action="{{ url_for('send_excel_to_selected_members') }}">
+            <input type="hidden" name="project_id" value="{{ project_id }}">
+            <input type="hidden" name="filename" value="{{ filename }}">
+
+            {% for member in members %}
+                <div class="member-checkbox">
+                    <label>
+                        <input type="checkbox" name="selected_members" value="{{ member[2] }}">
+                        {{ member[1] }} ({{ member[2] }})
+                    </label>
+                </div>
+            {% endfor %}
+
+            <button type="submit">Send File</button>
+        </form>
+    </main>
+</body>
+</html>

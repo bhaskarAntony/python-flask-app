@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upload Excel File - Quality Check</title>
+  <link href="#" rel="shortcut icon" />
+  <style>
+    :root {
+      --color-bg: #ffffff;
+      --color-text-base: #6b7280;
+      --color-text-dark: #111827;
+      --color-nav-border: #e5e7eb;
+      --color-button-bg: #111827;
+      --color-button-bg-hover: #374151;
+      --radius-card: 0.75rem;
+      --shadow-light: 0 5px 15px rgba(0,0,0,0.07);
+      --shadow-hover: 0 10px 25px rgba(0,0,0,0.12);
+      --font-family: 'Poppins', sans-serif;
+    }
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background-color: var(--color-bg);
+      color: var(--color-text-base);
+      font-size: 17px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: url("{{ url_for('static', filename='images/background-css.jpg') }}");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 1rem;
+      width: 100%;
+    }
+    /* Header & Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      background-color: var(--color-bg);
+      border-bottom: 1px solid var(--color-nav-border);
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--color-text-dark);
+    }
+    .logo img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      font-weight: 600;
+      color: #374151;
+    }
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--color-text-dark);
+      outline: none;
+      transition: color 0.3s ease;
+    }
+    /* Page header (hero-like) */
+    .page-header {
+      padding: 4rem 1rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: var(--color-text-dark);
+    }
+    .page-header h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
+    }
+    .page-header p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #4b5563;
+    }
+    /* Form card */
+    .form-card {
+      background: var(--color-bg);
+      max-width: 600px;
+      margin: 0 auto 4rem;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-light);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    input[type="file"] {
+      font-size: 1.1rem;
+      padding: 0.6rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: var(--radius-card);
+      cursor: pointer;
+    }
+    input[type="file"]:focus {
+      outline: 2px solid var(--color-button-bg);
+      outline-offset: 2px;
+    }
+    button[type="submit"], button[type="button"] {
+      background-color: var(--color-button-bg);
+      color: white;
+      padding: 0.85rem 2rem;
+      font-weight: 600;
+      font-size: 1.15rem;
+      border-radius: var(--radius-card);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(17,24,39,0.2);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      align-self: flex-start;
+      width: fit-content;
+    }
+    button[type="submit"]:hover,
+    button[type="submit"]:focus,
+    button[type="button"]:hover,
+    button[type="button"]:focus {
+      background-color: var(--color-button-bg-hover);
+      outline: none;
+      transform: scale(1.05);
+    }
+    /* Guidelines section */
+    .guidelines-section {
+      max-width: 900px;
+      margin: 0 auto 6rem;
+      padding: 0 1rem;
+    }
+    .guidelines-section h2 {
+      font-weight: 700;
+      font-size: 2.25rem;
+      color: var(--color-text-dark);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .guidelines-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .guideline-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-light);
+      padding: 1.75rem 1.5rem;
+      color: var(--color-text-base);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: box-shadow 0.3s ease;
+    }
+    .guideline-card:hover,
+    .guideline-card:focus-within {
+      box-shadow: var(--shadow-hover);
+    }
+    .guideline-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 1rem;
+      filter: grayscale(30%);
+    }
+    .guideline-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--color-text-dark);
+      margin-bottom: 0.5rem;
+    }
+    /* Prerequisites section */
+    .prerequisites-section {
+      max-width: 900px;
+      margin: 0 auto 6rem;
+      padding: 0 1rem;
+    }
+    .prerequisites-section h2 {
+      font-weight: 700;
+      font-size: 2rem;
+      color: var(--color-text-dark);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .prereq-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      color: #4b5563;
+      font-size: 1.25rem;
+    }
+    /* Footer */
+    footer {
+      background: #f9fafb;
+      padding: 2rem 1rem 2.5rem;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.9rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    footer .company-info {
+      max-width: 900px;
+      margin: 0 auto 1rem;
+      color: #6b7280;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .page-header h1 {
+        font-size: 2.8rem;
+      }
+    }
+    @media (max-width: 400px) {
+      .nav-links {
+        display: none; /* simplify nav on very small screens */
+      }
+    }
+  </style>
+  <script>
+    function validateFile() {
+      const fileInput = document.querySelector('input[type="file"]');
+      const filePath = fileInput.value;
+      const allowedExtensions = /(\.xls|\.xlsx)$/i;
+
+      if (!allowedExtensions.exec(filePath)) {
+        alert('Please upload a file with .xls or .xlsx extension.');
+        fileInput.value = ''; // Clear the input
+        return false; // Prevent form submission
+      }
+      return true; // Allow form submission
+    }
+
+
+  </script>
+</head>
+<body>
+  <header>
+    <nav aria-label="Main Navigation">
+      <div class="logo" aria-label="Company Logo">
+        <img src="{{ url_for('static', filename='images/softnis-logo.png') }}">
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#upload" tabindex="0">Upload</a>
+        <a href="#prerequisites" tabindex="0">Prerequisites</a>
+        <a href="#guidelines" tabindex="0">Guidelines</a>
+        <a href="#contact" tabindex="0">Contact</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="page-header" role="banner">
+      <h2>Upload Excel File for Quality Check</h2>
+      <p>Seamlessly upload your Excel files to perform comprehensive quality checks and comparisons.</p>
+    </section>
+
+    <section id="upload" class="form-card" aria-labelledby="upload-title">
+      <h2 id="upload-title" style="margin-top:0; font-weight:700; color:#111827; font-size:1.75rem;"><center>Upload Your File</center></h2>
+      <form method="POST" enctype="multipart/form-data" aria-describedby="upload-desc" onsubmit="return validateFile();">
+        <p id="upload-desc" style="margin-top:0; margin-bottom:1rem; color:#4b5563;">
+          Supported file types: <strong>.xls, .xlsx</strong>
+        </p>
+        <input type="file" name="file" accept=".xls,.xlsx" required aria-required="true" />
+        <button type="submit">Upload and check</button>
+      </form>
+
+
+    </section>
+
+    <section id="prerequisites" class="prerequisites-section" aria-labelledby="prerequisites-title">
+      <h2 id="prerequisites-title">Prerequisites for Using This Application</h2>
+      <ul class="prereq-list">
+        <li>The <strong>SoftNis ID</strong> must be alphanumeric and the column name should be exactly <strong><code> SoftNis ID</code>.</strong></li>
+        <li>The <strong> User ID or Name of the User</strong> should be exactly <strong><code> User Name </code></strong></li>
+        <li>The Excel file must contain exactly <strong>2 sheets</strong>.</li>
+        <li>The names of the sheets must be Production Completed and Delivered.</li>
+        <li>The column names in both sheets must be identical.</li>
+        <li>The uploaded file must be in Excel format <strong>(<code>.xls</code> or <code>.xlsx</code>).</strong></li>
+      </ul>
+    </section>
+
+    <section id="guidelines" class="guidelines-section" aria-labelledby="guidelines-title">
+      <h2 id="guidelines-title">Usage & Quality Check Guidelines</h2>
+      <div class="guidelines-grid">
+        <article class="guideline-card" tabindex="0">
+          <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Responsive Design Icon" class="guideline-icon" />
+          <h3 class="guideline-title">Compatible Formats</h3>
+          <p>Upload Excel files in <code>.xls</code> or <code>.xlsx</code> formats only for reliable quality checks.</p>
+        </article>
+        <article class="guideline-card" tabindex="0">
+          <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Data Accuracy Icon" class="guideline-icon" />
+          <h3 class="guideline-title">Verify Data Accuracy</h3>
+          <p>Ensure your Excel data is accurate and clean before uploading to avoid erroneous comparisons.</p>
+        </article>
+        <article class="guideline-card" tabindex="0">
+          <img src="https://cdn-icons-png.flaticon.com/512/2913/2913995.png" alt="Privacy Icon" class="guideline-icon" />
+          <h3 class="guideline-title">Privacy & Security</h3>
+          <p>Uploaded files are processed securely. Your data privacy is our top priority.</p>
+        </article>
+        <article class="guideline-card" tabindex="0">
+          <img src="https://cdn-icons-png.flaticon.com/512/5674/5674631.png" alt="Support Icon" class="guideline-icon" />
+          <h3 class="guideline-title">Support</h3>
+          <p>For any issues or inquiries, contact our support team through the Contact section below.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer aria-label="Footer company information">
+    <div class="company-info">
+      <p><strong>SoftNis Inc.</strong></p>
+      <p>123 Innovation Drive, Suite 100</p>
+      <p>Silicon Valley, CA 94043</p>
+      <p>Email: <a href="mailto:support@softnis.com">support@softnis.com</a> | Phone: (123) 456-7890</p>
+      <p>© 2024 SoftNis. All rights reserved.</p>
+    </div>
+  </footer>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      {% for category, message in messages %}
+        {% if category == 'popup' %}
+          alert("{{ message|safe }}");
+        {% endif %}
+      {% endfor %}
+    </script>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

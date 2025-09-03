@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign File to Project</title>
+</head>
+<body>
+    <h2>Assign File to Existing Project</h2>
+    <form method="POST">
+        <input type="hidden" name="filename" value="{{ filename }}">
+        <label for="project_id">Select Project:</label>
+        <select name="project_id" required>
+            {% for project in projects %}
+            <option value="{{ project[0] }}">{{ project[1] }} (ID: {{ project[0] }})</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Assign File</button>
+    </form>
+</body>
+</html>

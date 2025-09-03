@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quality Report Result</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .report-section {
+      margin-top: 40px;
+    }
+
+    .download-link {
+      display: inline-block;
+      background-color: #2ecc71;
+      color: white;
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .download-link:hover {
+      background-color: #27ae60;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 10px 16px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .back-button:hover {
+      background-color: #2980b9;
+    }
+
+    /* 👇 Add this to control the graph size */
+    #qualityChart {
+      max-width: 400px;
+      max-height: 300px;
+      width: 100%;
+      height: auto;
+      margin: 20px auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📊 Quality Reports Generated Successfully!</h1>
+
+  <div class="report-section">
+    <a class="download-link"
+       href="{{ url_for('static', filename=summary_file.split('static/')[1]) }}"
+       download>
+      📥 Download  Summary Report
+    </a>
+
+    <h3>User Quality Chart</h3>
+    <canvas id="qualityChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const data = {{ graph_data | tojson }};
+      const labels = data.map(d => d["User Name"]);
+      const quality = data.map(d => d["Quality %"]);
+
+      const ctx = document.getElementById("qualityChart").getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Quality %",
+            data: quality,
+            backgroundColor: "rgba(54, 162, 235, 0.7)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true, max: 100 }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'User-wise Quality Percentage'
+            }
+          }
+        }
+      });
+    </script>
+  </div>
+
+  <a class="back-button" href="{{ url_for('existing_projects') }}">← Back to Existing Projects</a>
+
+</body>
+</html>

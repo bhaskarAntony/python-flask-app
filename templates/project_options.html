@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Project Options</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f6fb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+       background-image: url('{{ url_for('static', filename='images/background-css.jpg') }}');
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none; /* Remove underline from links */
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .logout {
+      display: inline-block;
+      width: 120px;
+      padding: 8px 0;
+      margin-top: 16px;
+      font-size: 14px;
+      background-color: light pink;
+      text-align: center;
+    }
+
+    .logout:hover {
+      background-color: #c82333; /* Darker red on hover */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Select an Option</h2>
+    <a href="{{ url_for('add_project') }}" class="btn">➕ Add Project</a>
+    <a href="{{ url_for('existing_projects') }}" class="btn">📁 Existing Projects</a>
+    <a href="{{ url_for('prerequisites') }}" class="btn">📁 Upload a File</a>
+    <!-- Logout Button -->
+    <div style="margin-top: 20px;">
+      <a href="{{ url_for('logout') }}" class="logout"> Logout</a>
+    </div>
+  </div>
+</body>
+</html>

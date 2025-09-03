@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Project</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      background-image: url('{{ url_for('static', filename='images/background-css.jpg') }}');
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .form-container {
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 500px;
+      max-width: 95%;
+      overflow-y: auto;
+      max-height: 90vh;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 24px;
+    }
+    label {
+      margin-top: 10px;
+      display: block;
+      font-weight: bold;
+      color: #555;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    input:focus, select:focus {
+      border-color: #007BFF;
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+      outline: none;
+    }
+    .btn {
+      margin-top: 24px;
+      width: 100%;
+      padding: 16px;
+      background-color: #407BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: 1px solid #407BFF;
+    }
+    .btn:hover {
+      background-color: #3366CC;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .info-box {
+      margin-top: 10px;
+      font-size: 14px;
+      background: #f8f8f8;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+    }
+    .employee-list {
+      margin-top: 12px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .employee-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 8px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .employee-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: #407BFF;
+    }
+    .employee-item:last-child {
+      border-bottom: none;
+    }
+    .employee-item:hover {
+      background-color: #ebf2ff;
+    }
+    .btn-secondary {
+      background-color: #fff;
+      color: #555;
+      border: 1px solid #ddd;
+    }
+    .btn-secondary:hover {
+      background-color: #f5f5f5;
+      border-color: #ccc;
+    }
+    .button-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Add New Project</h2>
+    <form action="{{ url_for('add_project') }}" method="POST">
+
+
+      <label for="project_name">Project Name:</label>
+      <input type="text" name="project_name" id="project_name" required>
+
+    <label for="project_manager">Project Manager:</label>
+<select name="project_manager" id="project_manager" required onchange="updateManagerInfo()">
+  <option value="" disabled selected>-- Select Manager --</option>
+  {% for manager in managers %}
+    <option value="{{ manager[0] }}"
+            data-email="{{ manager[1] }}"
+            data-phone="{{ manager[2] }}">
+      {{ manager[0] }}
+    </option>
+  {% endfor %}
+</select>
+
+<!-- Manager details display -->
+<div id="manager-info" style="margin-top: 10px;">
+  <p><strong>Email:</strong> <span id="manager-email"></span></p>
+  <p><strong>Phone:</strong> <span id="manager-phone"></span></p>
+</div>
+
+<script>
+function updateManagerInfo() {
+  const select = document.getElementById("project_manager");
+  const selected = select.options[select.selectedIndex];
+  const email = selected.getAttribute("data-email");
+  const phone = selected.getAttribute("data-phone");
+
+  document.getElementById("manager-email").textContent = email;
+  document.getElementById("manager-phone").textContent = phone;
+}
+</script>
+
+      <h3>Select Employees to Add:</h3>
+      <div class="employee-list">
+        {% for emp in employees %}
+          <div class="employee-item">
+            <input type="checkbox" name="selected_employees" value="{{ emp[0] }}|{{ emp[1] }}|{{ emp[2] }}">
+            <span><strong>{{ emp[0] }}</strong> - {{ emp[1] }} - {{ emp[2] }}</span>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn">Submit Project</button>
+      </div>
+    </form>
+
+    <form action="{{ url_for('project_options') }}" style="margin-top: 28px;">
+      <button type="submit" class="btn btn-secondary">← Back to Project Options</button>
+    </form>
+  </div>
+
+
+  <script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'popup' %}
+            alert("{{ message }}");
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </script>
+
+</body>
+</html>

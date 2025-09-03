@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f4f8fc;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-semibold text-center text-blue-600 mb-6">➕ Add Manager</h2>
+
+        <!-- Add Manager Form -->
+        <form method="POST" class="space-y-4">
+            <input type="text" name="manager_name" placeholder="Manager Name" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="email" name="manager_email" placeholder="Manager Email" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="manager_phone" placeholder="Phone Number" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200">Add Manager</button>
+        </form>
+<form action="{{ url_for('view_managers') }}" method="GET" class="mt-4">
+            <button type="submit" class="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 transition duration-200">👥 View Managers</button>
+        <!-- Navigation Links -->
+        <div class="mt-6 flex justify-between">
+            <a href="{{ url_for('admin_dashboard') }}" class="text-blue-600 hover:underline">🏠 Admin Dashboard</a>
+
+    </form>
+
+
+
+
+
+
+
+</body>
+</html>

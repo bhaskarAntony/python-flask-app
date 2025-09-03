@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Files</title>
+</head>
+<body>
+  <h2>Select Files for Project ID: {{ project_id }}</h2>
+  <form method="POST" action="{{ url_for('generate_selected_report', project_id=project_id, project_name=project_name) }}">
+    {% for file in files %}
+        <input type="checkbox" name="selected_files" value="{{ file }}">{{ file }}<br>
+    {% endfor %}
+    <button type="submit">Generate Report</button>
+</form>
+
+</body>
+</html>
+

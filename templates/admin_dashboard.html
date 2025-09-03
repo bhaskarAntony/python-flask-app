@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f9f9f9;
+      background-image: url('{{ url_for('static', filename='images/background-css.jpg') }}');
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .navbar {
+      margin-bottom: 40px;
+      background-color: #4CAF50;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      margin: 0 10px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .navbar a:hover {
+      background-color: #45a049;
+    }
+
+    .button {
+      padding: 15px 30px;
+      margin: 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+
+    .logout {
+      background-color: #f44336;
+    }
+
+    .logout:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+
+<h2>👨‍💼 Admin Dashboard</h2>
+
+
+
+<form action="{{ url_for('add_employee') }}">
+    <button class="button" type="submit">Add Employee</button>
+</form>
+
+<form action="{{ url_for('add_manager') }}">
+    <button class="button" type="submit">Add Manager</button>
+</form>
+
+<form action="{{ url_for('existing_projects') }}">
+    <button class="button" type="submit">View Existing Projects</button>
+</form>
+
+<form action="{{ url_for('prerequisites') }}">
+    <button class="button" type="submit">Upload File</button>
+</form>
+
+<!-- Logout Button -->
+<form action="{{ url_for('logout') }}" method="get" style="margin-top: 16px;">
+    <button type="submit" class="button logout">Logout</button>
+</form>
+
+</body>
+</html>
